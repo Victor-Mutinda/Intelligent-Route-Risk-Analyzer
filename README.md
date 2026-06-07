@@ -60,7 +60,7 @@ How To Run And Test Locally
     . pip install -r requirements.txt
 3. Setup Your API key
     1. At the root of the project create a folder called ".streamlit"
-    2. In the folder create a file called "secrets"
+    2. In the folder create a file called "secrets.toml"
     3. In side the file add your api key as this
         WEATHER_AI_KEY = "paste your weather-ai.co API Key here"
 
