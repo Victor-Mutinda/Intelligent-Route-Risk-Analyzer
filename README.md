@@ -55,14 +55,18 @@ How To Run And Test Locally
    Run the following:
    . git clone https://huggingface.co/spaces/VictorMutinda/Intelligent_Route_Risk_Analyzer
    . cd Intelligent_Route_Risk_Analyzer
-3. Configure Your Virtual Environment
+2. Configure Your Virtual Environment
    Run the following:
-    .python -rl venv venv
-    .source venv/bin/activate  # On Windows use: venv\Scripts\activate
-    .pip install -r requirements.txt
-5. Execute the Local Automated Test Pipeline
+    . pip install -r requirements.txt
+3. Setup Your API key
+    1. At the root of the project create a folder called ".streamlit"
+    2. In the folder create a file called "secrets"
+    3. In side the file add your api key as this
+        WEATHER_AI_KEY = "paste your weather-ai.co API Key here"
+
+4. Execute the Local Automated Test Pipeline
    Run the following:
-    .streamlit run test_pipeline.py
-7. Launch the Dashboard Interface
+    . streamlit run test_pipeline.py
+5. Launch the Dashboard Interface
    Run the following:
-    .streamlit run app.py
+    . streamlit run app.py
