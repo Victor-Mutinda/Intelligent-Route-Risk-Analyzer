@@ -1,8 +1,5 @@
 ---
-title: Intelligent Route Risk Analyzer
-emoji: 🚀
-colorFrom: red
-colorTo: red
+Title: Intelligent Route Risk Analyzer
 sdk: streamlit
 app_file: app.py
 app_port: 8501
