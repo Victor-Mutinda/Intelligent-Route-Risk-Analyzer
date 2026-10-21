@@ -10,7 +10,8 @@ class GeoSpatialDataLoader:
     Handles geographical calculations, route sampling via OpenStreetMap (OSRM),
     and secure communication layers with the Weather-AI developer endpoints.
     """
-    def __init__(self, base_url: str = "https://weather-ai.co"):
+    # This is a constructor method runs automatically when you create an object.
+    def __init__(self, base_url: str = "https://weather-ai.co"):  
         if "WEATHER_AI_KEY" in st.secrets:
             self.api_key =  st.secrets["WEATHER_AI_KEY"]
         else:
@@ -25,7 +26,7 @@ class GeoSpatialDataLoader:
             "nakuru": {"lat": -0.3031, "lon": 36.0800},
             "kisumu": {"lat": -0.0917, "lon": 34.7680}
         }
-
+# This method takes arguments and returns a list of dictionaries with String Keys and any data type values.
     def generate_route_waypoints(self, start_city: str, end_city: str, sample_size: int = 8) -> List[Dict[str, Any]]:
         """
         Queries the Open Source Routing Machine (OSRM) to capture polyline data
