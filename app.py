@@ -1,27 +1,30 @@
-import streamlit as st
-import pandas as pd
-import pydeck as pdk
-from src.data_loader import GeoSpatialDataLoader
+import streamlit as st # library used to build the web interface
+import pandas as pd # Library used to work on tables referred to as dataframes
+import pydeck as pdk # Library used to create interactive maps and map layers
+from src.data_loader import GeoSpatialDataLoader # Imports the GeoSpatialDataloader class from the data_loader python file
 from src.risk_model import RouteRiskEvaluator
+
+# This file creates the UI and links the data_loader and risk_model python files.
 
 # 1. Config App Layout
 st.set_page_config(
     page_title="Route Risk Analyzer Dashboard",
     page_icon="🚚",
-    layout="wide"
+    layout="wide",
 )
 
 st.title("Intelligent Weather Predictive Route Risk Analyzer Dashboard")
-st.markdown("---")
+st.markdown("---") # Draws out a divider line to different the title section and the body 
 
 # 2. System Layer Initialization
-@st.cache_resource
-def init_system_engines():
+@st.cache_resource # This ensures re-usability of objects instead of creating new objects when app re-runs. 
+# not only is it used for objects but also used for - database connections, API clients, machine-learning models.
+def init_system_engines(): # This method starts/boots-up the core backend classes by creating objects of those classes.
     # Automatically tracks local keys or Streamlit Cloud secure secrets
-    return GeoSpatialDataLoader(), RouteRiskEvaluator()
+    return GeoSpatialDataLoader(), RouteRiskEvaluator() # returns 2 objects of these classes.
 
 try:
-    data_loader, risk_evaluator = init_system_engines()
+    data_loader, risk_evaluator = init_system_engines() # the 2 objects are unpacked into the data_loader and risk_evaluator variables.
 except Exception as e:
     st.error(f"Initialization Error: {e}")
     st.stop()
