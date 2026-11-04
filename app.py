@@ -26,26 +26,29 @@ def init_system_engines(): # This method starts/boots-up the core backend classe
 try:
     data_loader, risk_evaluator = init_system_engines() # the 2 objects are unpacked into the data_loader and risk_evaluator variables.
 except Exception as e:
-    st.error(f"Initialization Error: {e}")
+    st.error(f"Initialization Error: {e}") # displays the error message
     st.stop()
 
 # 3. Sidebar Control Panel Configuration
-st.sidebar.header("Route Settings")
-available_hubs = list(data_loader.city_coordinates.keys())
+st.sidebar.header("Route Settings") # Creates the side bar heading name.
+available_hubs = list(data_loader.city_coordinates.keys()) # city_coordinates is a dict in the data_loader class, therefore we use the object of the class to access the dict and  return the keys which are the city names.
 
-origin = st.sidebar.selectbox("Select Route Origin Sector", options=available_hubs, index=0)
+origin = st.sidebar.selectbox("Select Route Origin Sector", options=available_hubs, index=0) # Creates drop-down lists. 
 destination = st.sidebar.selectbox("Select Target Destination Sector", options=available_hubs, index=1)
-sample_points = st.sidebar.slider("Route Node Granularity (Waypoints)", min_value=4, max_value=12, value=6)
+sample_points = st.sidebar.slider("Route Node Granularity (Waypoints)", min_value=4, max_value=12, value=6) # creates a slider to select the number of nodes/waypoints along origin and destination. 
 
 if origin == destination:
     st.sidebar.error("Origin and Destination sectors cannot match. Please select a transit vector.")
-    st.stop()
+    st.stop() # Prevents the rest of the code from executing.
 
 # 4. Trigger Calculation Pipeline Flow (With Intelligent Application Caching)
 
-# Cache data for 30 minutes (1800 seconds) so adjustments read from local memory
+# Cache data for 30 minutes (1800 seconds) so adjustments read from local memory. Similar to cache_resource but its intended for returned data.
 @st.cache_data(ttl=1800)
 def fetch_and_analyze_route(_loader_engine, _evaluator_engine, origin_sector, destination_sector, granularity_points):
+# _loader_engine and _evaluator_engine are the objects of the classes GeoSpatialDataLoader and RouteRiskEvaluator respectively. 
+# The underscore(_) prefix tells Streamlit’s cache not to use this object when building the cache key.
+# The other 3 parameters are the user inputs from the sidebar.
     """
     Executes core pipeline functions and safely caches the composite 
     dataframes to strictly insulate against 429 API rate limits.
@@ -70,7 +73,8 @@ def fetch_and_analyze_route(_loader_engine, _evaluator_engine, origin_sector, de
     return processed_dataframe, summary_object
 
 # Execute the pipeline with a UI processing spinner
-with st.spinner("Analyzing micro-climate route vectors..."):
+# with - starts a context manager that automatically handles the spinner's lifecycle, showing it while the block runs and hiding it afterward.
+with st.spinner("Analyzing weather insights along the route..."):
     # Pass the data loaders with underscores so Streamlit doesn't try to hash the entire class object
     processed_df, summary = fetch_and_analyze_route(
         data_loader, 
@@ -89,11 +93,13 @@ status_colors = {
 
 st.subheader("📋 Dispatch Summary")
 
-# A clean layout with 3 dedicated data columns
+# A clean layout with 3 dedicated data columns. Each column is assigned to a variable.
 c1, c2, c3 = st.columns(3)
 
+# using with, we add content to each column.
 with c1:
     # Use standard status text blocks depending on authorization layout
+# ** - makes the text bold, ### makes the text a heading of size 3.  
     status_str = summary["overall_route_status"]
     if "CLEAR" in status_str:
         st.success(f"**Authorization Status:**\n### ✅ {status_str}")
@@ -220,6 +226,6 @@ formatted_view_df = processed_df[[
 
 st.dataframe(
     formatted_view_df, 
-    use_container_width=True, 
+   width=True, 
     hide_index=True
 )

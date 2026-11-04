@@ -5,8 +5,8 @@ import time
 from typing import List, Dict, Any
 import streamlit as st
 
-class GeoSpatialDataLoader:
-# Colon is used to signal that everything indented below belongs to that class.
+class GeoSpatialDataLoader: 
+    # Colon is used to signal that everything indented below belongs to that class.
     """
     Handles geographical calculations, route sampling via OpenStreetMap (OSRM),
     and secure communication layers with the Weather-AI developer endpoints.
@@ -15,7 +15,7 @@ class GeoSpatialDataLoader:
     # self is included as part of the arguments since its used to specify the instance of the class.
     # Allowing for modification and access for an objects attribute data
     def __init__(self, base_url: str = "https://weather-ai.co"):  
-        if "WEATHER_AI_KEY" in st.secrets:
+        if "WEATHER_AI_KEY" in st.secrets:      
             self.api_key =  st.secrets["WEATHER_AI_KEY"]
         else:
             raise KeyError( # KeyError is an exception thats raised when a dictionary key doesnt exist in a collection
